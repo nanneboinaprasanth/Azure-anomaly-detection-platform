@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PulseOps Analytics</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <span class="brand-mark">P</span>
+          <div>
+            <h1>PulseOps</h1>
+            <p>Azure stream analytics</p>
+          </div>
+        </div>
+
+        <nav class="nav-list" aria-label="Primary">
+          <button class="nav-item active" type="button" title="Overview">
+            <span aria-hidden="true">O</span>
+            Overview
+          </button>
+          <button class="nav-item" type="button" title="Streams">
+            <span aria-hidden="true">S</span>
+            Streams
+          </button>
+          <button class="nav-item" type="button" title="Azure">
+            <span aria-hidden="true">A</span>
+            Azure
+          </button>
+          <button class="nav-item" type="button" title="Alerts">
+            <span aria-hidden="true">!</span>
+            Alerts
+          </button>
+          <button class="nav-item" type="button" title="Models">
+            <span aria-hidden="true">M</span>
+            Models
+          </button>
+        </nav>
+
+        <section class="control-panel" aria-labelledby="controls-title">
+          <h2 id="controls-title">Detection Controls</h2>
+
+          <label class="field">
+            <span>Sensitivity</span>
+            <input id="sensitivity" type="range" min="1.4" max="3.5" value="2.25" step="0.05" />
+          </label>
+
+          <label class="field">
+            <span>Stream velocity</span>
+            <input id="velocity" type="range" min="250" max="1600" value="760" step="50" />
+          </label>
+
+          <label class="toggle">
+            <input id="injectAnomalies" type="checkbox" checked />
+            <span>Inject anomalies</span>
+          </label>
+
+          <div class="button-row">
+            <button id="pauseButton" class="icon-button" type="button" title="Pause stream" aria-label="Pause stream">||</button>
+            <button id="resetButton" class="icon-button" type="button" title="Reset stream" aria-label="Reset stream">R</button>
+          </div>
+        </section>
+      </aside>
+
+      <section class="workspace">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Live telemetry fabric</p>
+            <h2>Real-Time Data Analytics and Anomaly Detection Platform</h2>
+            <p class="hero-copy">A reference implementation for monitoring high-throughput financial, IoT, or commerce events with Azure Event Hubs, Stream Analytics, Functions, operational storage, and real-time dashboards.</p>
+          </div>
+          <div class="status-strip">
+            <span class="status-dot"></span>
+            <span id="streamStatus">Streaming</span>
+          </div>
+        </header>
+
+        <section class="metric-grid" aria-label="Live metrics">
+          <article class="metric-card">
+            <span>Events / min</span>
+            <strong id="eventsMetric">0</strong>
+            <small id="eventsTrend">warming up</small>
+          </article>
+          <article class="metric-card">
+            <span>Anomaly rate</span>
+            <strong id="rateMetric">0.0%</strong>
+            <small id="rateTrend">baseline stable</small>
+          </article>
+          <article class="metric-card">
+            <span>Mean latency</span>
+            <strong id="latencyMetric">0 ms</strong>
+            <small id="latencyTrend">watching drift</small>
+          </article>
+          <article class="metric-card">
+            <span>Risk score</span>
+            <strong id="riskMetric">0</strong>
+            <small id="riskTrend">normal</small>
+          </article>
+        </section>
+
+        <section class="brief-grid" aria-label="Project brief">
+          <article class="brief-panel">
+            <span>Business Problem</span>
+            <p>Detect fraud, maintenance risks, and unusual user behavior within seconds of event arrival while source systems continue sending high-volume data.</p>
+          </article>
+          <article class="brief-panel">
+            <span>Senior Architecture Goals</span>
+            <p>Partitioned ingestion, windowed low-latency analytics, fault-tolerant scaling, durable analytical storage, and automated response workflows.</p>
+          </article>
+          <article class="brief-panel">
+            <span>Actionable Outcome</span>
+            <p>Suspicious event groups trigger alerts, ticket creation, blocking workflows, or dashboard updates for operators and business teams.</p>
+          </article>
+        </section>
+
+        <section class="architecture-band" aria-label="Azure architecture">
+          <div class="panel-header">
+            <div>
+              <h3>Azure Reference Architecture</h3>
+              <p>Event-driven stream processing path</p>
+            </div>
+          </div>
+          <div class="flow">
+            <article>
+              <strong>Event Hubs</strong>
+              <span>Mass ingestion front door with partitions and consumer groups.</span>
+            </article>
+            <article>
+              <strong>Stream Analytics</strong>
+              <span>SQL-like windows, joins, aggregations, and anomaly detection.</span>
+            </article>
+            <article>
+              <strong>Azure Functions</strong>
+              <span>Serverless actions for Slack, CRM, Logic Apps, or fraud holds.</span>
+            </article>
+            <article>
+              <strong>Cosmos DB / ADX</strong>
+              <span>Hot operational lookups or large-scale ad-hoc analytics.</span>
+            </article>
+            <article>
+              <strong>Power BI</strong>
+              <span>Real-time dashboard tiles for anomalies and business KPIs.</span>
+            </article>
+          </div>
+        </section>
+
+        <section class="analytics-grid">
+          <article class="panel chart-panel">
+            <div class="panel-header">
+              <div>
+                <h3>Throughput Stream</h3>
+                <p>Z-score detection over rolling windows</p>
+              </div>
+              <span id="thresholdLabel" class="pill">threshold 2.25z</span>
+            </div>
+            <canvas id="throughputChart" width="980" height="360" aria-label="Throughput chart"></canvas>
+          </article>
+
+          <article class="panel">
+            <div class="panel-header">
+              <div>
+                <h3>Signal Distribution</h3>
+                <p>Current sensor mix</p>
+              </div>
+            </div>
+            <canvas id="distributionChart" width="420" height="290" aria-label="Distribution chart"></canvas>
+          </article>
+
+          <article class="panel">
+            <div class="panel-header">
+              <div>
+                <h3>Incident Feed</h3>
+                <p>Newest anomalies first</p>
+              </div>
+            </div>
+            <div id="incidentFeed" class="incident-feed" aria-live="polite"></div>
+          </article>
+
+          <article class="panel model-panel">
+            <div class="panel-header">
+              <div>
+                <h3>Detection Model</h3>
+                <p>Rolling baseline health</p>
+              </div>
+            </div>
+            <div class="model-meter">
+              <div id="modelMeterFill"></div>
+            </div>
+            <dl class="model-stats">
+              <div>
+                <dt>Window</dt>
+                <dd id="windowMetric">60 events</dd>
+              </div>
+              <div>
+                <dt>Precision estimate</dt>
+                <dd id="precisionMetric">--</dd>
+              </div>
+              <div>
+                <dt>Last retrain</dt>
+                <dd id="retrainMetric">just now</dd>
+              </div>
+            </dl>
+          </article>
+        </section>
+
+        <section class="implementation-grid">
+          <article class="panel query-panel">
+            <div class="panel-header">
+              <div>
+                <h3>Stream Analytics Fraud Query</h3>
+                <p>More than three card transactions inside a five-minute tumbling window</p>
+              </div>
+            </div>
+            <pre><code>-- Stream Analytics Query Language (SAQL)
+WITH PotentialFraud AS (
+  SELECT
+    CardNumber,
+    COUNT(*) AS TransactionCount,
+    System.Timestamp() AS WindowEnd
+  FROM
+    [your-event-hub-input]
+  TIMESTAMP BY TransactionTimestamp
+  GROUP BY
+    CardNumber,
+    TumblingWindow(minute, 5)
+  HAVING
+    COUNT(*) > 3
+)
+
+-- Output to an Azure Function for alerting
+SELECT
+  CardNumber,
+  TransactionCount,
+  WindowEnd
+INTO
+  [alert-output-to-function]
+FROM
+  PotentialFraud;</code></pre>
+          </article>
+
+          <article class="panel">
+            <div class="panel-header">
+              <div>
+                <h3>Data Store Decision</h3>
+                <p>Choose storage by access pattern</p>
+              </div>
+            </div>
+            <dl class="decision-list">
+              <div>
+                <dt>Cosmos DB</dt>
+                <dd>Low-latency operational reads, customer risk profiles, case status, and alert enrichment.</dd>
+              </div>
+              <div>
+                <dt>Azure Data Explorer</dt>
+                <dd>High-volume telemetry history, time-series exploration, root-cause analysis, and forensic queries.</dd>
+              </div>
+              <div>
+                <dt>Power BI</dt>
+                <dd>Executive and operations dashboards fed by Stream Analytics output.</dd>
+              </div>
+            </dl>
+          </article>
+        </section>
+
+        <section class="goal-grid" aria-label="Architecture goals">
+          <article>
+            <strong>High ingestion rate</strong>
+            <span>Event Hubs partitions absorb bursty event traffic and let consumers scale independently.</span>
+          </article>
+          <article>
+            <strong>Low latency processing</strong>
+            <span>Stream Analytics evaluates sliding and tumbling windows seconds after events arrive.</span>
+          </article>
+          <article>
+            <strong>Scalability and resilience</strong>
+            <span>Managed services scale out, checkpoint progress, and isolate failures by pipeline stage.</span>
+          </article>
+          <article>
+            <strong>Actionable insights</strong>
+            <span>Function outputs send alerts, open tickets, update risk scores, or trigger automated holds.</span>
+          </article>
+        </section>
+
+        <section class="panel table-panel">
+          <div class="panel-header">
+            <div>
+              <h3>Live Event Sample</h3>
+              <p>Latest scored records</p>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Time</th>
+                  <th>Source</th>
+                  <th>Amount</th>
+                  <th>Baseline</th>
+                  <th>Score</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="eventTable"></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,13 @@
+{
+  "TransactionId": "txn-100391",
+  "CardNumber": "411111******8842",
+  "TransactionTimestamp": "2026-07-07T10:45:12Z",
+  "Amount": 1299.75,
+  "Currency": "USD",
+  "MerchantId": "merchant-729",
+  "MerchantCity": "New York",
+  "Country": "US",
+  "Channel": "web-checkout",
+  "DeviceId": "device-a81f",
+  "IpAddress": "198.51.100.42"
+}

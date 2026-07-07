@@ -1,0 +1,15 @@
+# OS and editor files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Java and Maven build output
+target/
+*.class
+
+# Azure Functions local secrets
+local.settings.json
+
+# Logs
+*.log
