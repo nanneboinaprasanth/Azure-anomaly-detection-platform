@@ -38,6 +38,10 @@ A company needs to monitor high-throughput financial transactions, IoT readings,
 
 Open `index.html` in a browser. No package install or build step is required.
 
+For full setup steps, see [STARTUP.md](STARTUP.md).
+
+For common problems and fixes, see [TROUBLESHOOTING.md](TROUBLESHOOTING.md).
+
 ## Java Function
 
 The Azure Function backend is a Java Maven project in `azure/functions/`.
